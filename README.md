@@ -10,14 +10,19 @@ Nyxel is a couch-first theme for [Pegasus Frontend](https://pegasus-frontend.org
 
 > **Version:** 6.1 · **Theme:** Nyxel · **Author:** [@aj5649169-svg](https://github.com/aj5649169-svg)
 
-## Preview
+## Screenshots (Running on Real TV Hardware)
 
-Add screenshots or a short gameplay/UI capture here when available:
+### Main Shelf & High-Visibility Cinema Backdrop
+![Nyxel Main Shelf](screenshots/main-shelf.jpg)
 
-- Main Shelf & Cinema Backdrop
-- Frosted Glass Action Drawer
-- Discovery Hub
-- Keyword Search
+### Frosted Glass Action Drawer
+![Nyxel Action Drawer](screenshots/action-drawer.jpg)
+
+### Dedicated Discovery Hub (Popular Classics & 120+ Auto-Grouped Franchises)
+![Nyxel Discovery Hub](screenshots/discovery-hub.jpg)
+
+### Instant Cross-Console Keyword Search
+![Nyxel Keyword Search](screenshots/keyword-search.jpg)
 
 ## Highlights
 
