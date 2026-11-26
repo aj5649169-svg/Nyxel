@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtMultimedia 5.9
 
 // ============================================================================
-// NYXEL — Living-Room TV Console Dashboard for Pegasus Frontend (v6.1)
+// NYXEL — Living-Room TV Console Dashboard for Pegasus Frontend (v6.1.1)
 // Target: QtQuick 2.12 + QtMultimedia 5.9 ONLY (32-bit Android TV / Jio STB)
 // Zero Qt 6 syntax | Zero shaders | Zero blur | Low-RAM safe (512x512 cap)
 //
@@ -1996,7 +1996,8 @@ FocusScope {
                 } else if (isNav) {
                     if (navGate(rep)) {
                         if (isNavLeft(event)) {
-                            kbIndex = (kbIndex % cols === 0) ? Math.min(total - 1, kbIndex + cols - 1) : kbIndex - 1;                            if (!rep) playSound("move");
+                            kbIndex = (kbIndex % cols === 0) ? Math.min(total - 1, kbIndex + cols - 1) : kbIndex - 1;
+                            if (!rep) playSound("move");
                         } else if (isNavRight(event)) {
                             if ((kbIndex % cols === cols - 1 || kbIndex === total - 1) && searchResults.length > 0) {
                                 searchZone = 1;
@@ -2995,7 +2996,8 @@ FocusScope {
 
             // Section 0: Continue + Search + Multiplayer + Wishlist + Unplayed
             ListView {
-                id: hubQuickList                width: parent.width
+                id: hubQuickList
+                width: parent.width
                 height: root.sz(72)
                 orientation: ListView.Horizontal
                 spacing: root.px(16)
@@ -3994,7 +3996,8 @@ FocusScope {
         visible: opacity > 0.01
     }
 
-    // ------------------------------------------------------------------    // 21. Console Boot Splash Overlay (z: 100, synced to sounds/boot.wav)
+    // ------------------------------------------------------------------
+    // 21. Console Boot Splash Overlay (z: 100, synced to sounds/boot.wav)
     // ------------------------------------------------------------------
 
     Rectangle {

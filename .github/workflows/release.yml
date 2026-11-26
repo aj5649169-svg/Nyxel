@@ -1,0 +1,82 @@
+name: Release Packaging
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to package and publish
+        required: true
+        default: v6.1.1
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out release ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Install Qt 5 QML lint tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtdeclarative5-dev-tools
+
+      - name: Verify required theme files exist and are non-empty
+        run: |
+          for file in theme.qml theme.cfg; do
+            if [ ! -s "$file" ]; then
+              echo "::error::Required file '$file' is missing or empty"
+              exit 1
+            fi
+          done
+
+      - name: Run Qt 5 qmllint (release gate)
+        run: qmllint theme.qml
+
+      - name: Package installable theme ZIP and SHA-256 checksum
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          set -euo pipefail
+          STAGE="_dist/nyxel"
+          mkdir -p "$STAGE"
+          cp theme.qml theme.cfg LICENSE README.md "$STAGE"/
+          if [ -d sounds ] && [ -n "$(find sounds -type f -print -quit)" ]; then
+            cp -R sounds "$STAGE"/
+          else
+            echo "::notice::sounds/ directory not present; packaging the required theme files without optional sound assets."
+          fi
+          (cd _dist && zip -r "nyxel-${RELEASE_TAG}.zip" nyxel)
+          (cd _dist && sha256sum "nyxel-${RELEASE_TAG}.zip" > "nyxel-${RELEASE_TAG}.zip.sha256")
+          echo "Release package contents:"
+          unzip -l "_dist/nyxel-${RELEASE_TAG}.zip"
+          echo "Checksum:"
+          cat "_dist/nyxel-${RELEASE_TAG}.zip.sha256"
+
+      - name: Create or update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          name: Nyxel ${{ inputs.tag || github.ref_name }}
+          body: |
+            ## Nyxel ${{ inputs.tag || github.ref_name }}
+
+            - Fixed the Discovery Hub hubQuickList QML parse error that prevented Pegasus from loading the theme.
+            - Cleaned up merged QML statements and the Console Boot Splash comment banner.
+            - Added Qt 5 qmllint checks on pushes and pull requests to main.
+            - Added automated release packaging with a SHA-256 checksum.
+
+            Requires QtQuick 2.12 / Qt 5 and Pegasus Frontend.
+          files: |
+            _dist/nyxel-${{ inputs.tag || github.ref_name }}.zip
+            _dist/nyxel-${{ inputs.tag || github.ref_name }}.zip.sha256
+          overwrite_files: true
+          fail_on_unmatched_files: true

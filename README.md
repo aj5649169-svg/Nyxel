@@ -1,6 +1,6 @@
-# NYXEL — Living-Room TV Console Dashboard for Pegasus Frontend (v6.1)
+# NYXEL — Living-Room TV Console Dashboard for Pegasus Frontend (v6.1.1)
 
-![Version](https://img.shields.io/badge/version-v6.1-7c3aed)
+![Version](https://img.shields.io/badge/version-v6.1.1-7c3aed)
 ![QtQuick](https://img.shields.io/badge/QtQuick-2.12-41a5f5)
 ![Performance](https://img.shields.io/badge/rendering-60fps%20%7C%20zero--shader-16a34a)
 ![Platforms](https://img.shields.io/badge/platforms-Android%20TV%20%7C%20PC%20%7C%20Handhelds-64748b)
@@ -8,7 +8,7 @@
 
 Nyxel is a couch-first theme for [Pegasus Frontend](https://pegasus-frontend.org/), designed for 720p and 1080p living-room screens as well as PCs and handhelds. Its visual approach aims for a smooth, readable 60fps experience on modest Android TV boxes and set-top boxes: QtQuick 2.12, no shader effects, and no expensive full-screen blur.
 
-> **Version:** 6.1 · **Theme:** Nyxel · **Author:** [@aj5649169-svg](https://github.com/aj5649169-svg)
+> **Version:** 6.1.1 · **Theme:** Nyxel · **Author:** [@aj5649169-svg](https://github.com/aj5649169-svg)
 
 ## Screenshots (Running on Real TV Hardware)
 
@@ -109,7 +109,7 @@ Exact mappings can depend on the controller and Android input mode. Use Controll
 ### PC, Steam Deck, handhelds, and Android phones
 
 1. Install Pegasus Frontend from the [official website](https://pegasus-frontend.org/).
-2. Download the **Nyxel v6.1** ZIP from the [GitHub Releases page](https://github.com/aj5649169-svg/Nyxel/releases).
+2. Download the **Nyxel v6.1.1** ZIP from the [GitHub Releases page](https://github.com/aj5649169-svg/Nyxel/releases).
 3. Extract the theme package into your Pegasus themes directory, keeping this layout:
 
    ```text
@@ -208,6 +208,13 @@ When reporting a problem, include:
 - Pegasus version
 - What happened and how to reproduce it
 - The last 20 lines of `lastrun.log`, or a clear photo of the TV screen
+
+## Changelog — v6.1.1
+
+- Fixed the QML parse error in `theme.qml` at the Discovery Hub `hubQuickList` block (missing line break after `id: hubQuickList`) that prevented Pegasus from loading the theme — thanks @ZagonAb.
+- Split the merged two-statement line in Search navigation for clean QML syntax.
+- Added automated Qt 5 `qmllint` CI checks on every push and pull request targeting `main`.
+- Added a tag-triggered GitHub Release workflow that packages `nyxel-<tag>.zip` and its SHA-256 checksum.
 
 ## Changelog — v6.1
 
